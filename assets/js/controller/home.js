@@ -1,5 +1,5 @@
 ///<reference path="../d.ts/createjs/createjs.d.ts" />
-var __extends = this.__extends || function (d, b) {
+var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
@@ -14,12 +14,12 @@ define(["require", "exports", "./base_controller", "../model/home", "../view/hom
             this.callbacks = [];
             this.animations = [];
             this.speed = 3;
-            var json = new SJ.SsJson("/createjs_test/out.json");
+            var json = new SJ.SsJson("/createjs_test/Comipo/datas/out.json");
             this.animation = json.getAnimation(1);
             this.animation2 = json.getAnimation(3);
             this.animation3 = json.getAnimation(4);
             this.animation_images = json.getImages(1);
-            console.log(this.model.stage);
+            console.log(this.view.stage);
             this.animations[0] = this.createChara();
             this.animations[1] = this.createChara();
             this.animations[2] = this.createChara();
@@ -42,20 +42,23 @@ define(["require", "exports", "./base_controller", "../model/home", "../view/hom
             this.animations[1].animation.zoom = 0.5;
             this.animations[1].animation.x = 800;
             this.animations[1].animation.y = 400;
-            this.animations[8].animation.alpha = 0.5;
-            this.model.stage.addChild(this.animations[0].animation);
-            this.model.stage.addChild(this.animations[1].animation);
-            this.model.stage.addChild(this.animations[2].animation);
-            this.model.stage.addChild(this.animations[3].animation);
-            this.model.stage.addChild(this.animations[4].animation);
-            this.model.stage.addChild(this.animations[5].animation);
-            this.model.stage.addChild(this.animations[6].animation);
-            this.model.stage.addChild(this.animations[7].animation);
-            this.model.stage.addChild(this.animations[8].animation);
-            this.model.stage.update();
+            this.view.stage.addChild(this.animations[0].animation);
+            this.view.stage.addChild(this.animations[1].animation);
+            this.view.stage.addChild(this.animations[2].animation);
+            this.view.stage.addChild(this.animations[3].animation);
+            this.view.stage.addChild(this.animations[4].animation);
+            this.view.stage.addChild(this.animations[5].animation);
+            this.view.stage.addChild(this.animations[6].animation);
+            this.view.stage.addChild(this.animations[7].animation);
+            this.view.stage.addChild(this.animations[8].animation);
+            this.view.stage.update();
             this.animations[8].animation.x = 550;
             this.animations[8].animation.useCache(true, 350, 400);
-            setInterval(function () { _this.drawCall(); }, 1000 / 30);
+            this.animations[8].animation.filters = [new createjs.ColorFilter(0, 0, 0, 0.5, 156, 167, 226, 0)];
+            $("#start").on("click", function () {
+                setInterval(function () { _this.drawCall(); }, 1000 / 30);
+            });
+            setTimeout(function () { _this.animations[8].animation.isStoped = true; }, 10000);
         }
         HomeController.prototype.drawCall = function () {
             var _this = this;
@@ -88,10 +91,10 @@ define(["require", "exports", "./base_controller", "../model/home", "../view/hom
                 }
                 this.animations[i].data.draw(time);
             }
-            this.model.stage.update();
+            this.view.stage.update();
         };
         HomeController.prototype.createChara = function () {
-            var image = new SP.SsImage(this.animation_images, "./", true);
+            var image = new SP.SsImage(this.animation_images, "./Comipo/datas/", true);
             var animation = new SP.SsAnimation(this.animation, image);
             var data = new SP.SsSprite(animation);
             data.setLoop(0);

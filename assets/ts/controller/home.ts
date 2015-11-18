@@ -5,6 +5,7 @@ import  HM = require("../model/home");
 import  HV = require("../view/home");
 import  SP = require("../library/ssplayer");
 import  SJ = require("../library/ssjson");
+import  SE = require("../library/sound");
 
 export class HomeController extends BC.BaseController<HM.HomeModel, HV.HomeView>{
     callbacks:any = [];
@@ -19,13 +20,13 @@ export class HomeController extends BC.BaseController<HM.HomeModel, HV.HomeView>
     constructor(data:any){
         super(new HM.HomeModel(data), new HV.HomeView());
 
-        var json = new SJ.SsJson("/createjs_test/out.json")
+        var json = new SJ.SsJson("/createjs_test/Comipo/datas/out.json")
         this.animation = json.getAnimation(1);
         this.animation2 = json.getAnimation(3);
         this.animation3 = json.getAnimation(4);
         this.animation_images = json.getImages(1);
 
-        console.log(this.model.stage);
+        console.log(this.view.stage);
 
         this.animations[0] = this.createChara();
         this.animations[1] = this.createChara();
@@ -52,28 +53,40 @@ export class HomeController extends BC.BaseController<HM.HomeModel, HV.HomeView>
         this.animations[1].animation.zoom = 0.5;
         this.animations[1].animation.x = 800;
         this.animations[1].animation.y = 400;
-        this.animations[8].animation.alpha = 0.5;
+        //this.animations[8].animation.alpha = 0.5;
 
 
 
-        this.model.stage.addChild(this.animations[0].animation);
-        this.model.stage.addChild(this.animations[1].animation);
-        this.model.stage.addChild(this.animations[2].animation);
-        this.model.stage.addChild(this.animations[3].animation);
-        this.model.stage.addChild(this.animations[4].animation);
-        this.model.stage.addChild(this.animations[5].animation);
-        this.model.stage.addChild(this.animations[6].animation);
-        this.model.stage.addChild(this.animations[7].animation);
-        this.model.stage.addChild(this.animations[8].animation);
-        this.model.stage.update();
+        this.view.stage.addChild(this.animations[0].animation);
+        this.view.stage.addChild(this.animations[1].animation);
+        this.view.stage.addChild(this.animations[2].animation);
+        this.view.stage.addChild(this.animations[3].animation);
+        this.view.stage.addChild(this.animations[4].animation);
+        this.view.stage.addChild(this.animations[5].animation);
+        this.view.stage.addChild(this.animations[6].animation);
+        this.view.stage.addChild(this.animations[7].animation);
+        this.view.stage.addChild(this.animations[8].animation);
+        this.view.stage.update();
 
         this.animations[8].animation.x = 550;
         this.animations[8].animation.useCache(true, 350, 400);
-        //this.animations[8].animation.filters = [new createjs.ColorFilter(0.2, 1, 1, 1)];
+        this.animations[8].animation.filters = [new createjs.ColorFilter(0, 0, 0, 0.5, 156, 167, 226, 0)];
 
 
-        setInterval(() => {this.drawCall()}, 1000/30);
-        //setTimeout(() =>{ this.animations[8].animation.isStoped = true;}, 200);
+        //SoundTest
+
+        $("#start").on("click", ()=>{
+            setInterval(() => {this.drawCall()}, 1000/30);
+            /*
+            var sound = new SE.Sound();
+            sound.load("sound1", "/createjs_test/assets/sound/sample_01jupiter_001_01.aac");
+            sound.load("sound2", "/createjs_test/assets/sound/sample_01jupiter_001_02.aac");
+            setTimeout(() =>{sound.play("sound1");}, 2000);
+            setTimeout(() =>{sound.play("sound2");}, 4000);
+            */
+        })
+
+        setTimeout(() =>{ this.animations[8].animation.isStoped = true;}, 10000);
         //setTimeout(() =>{ this.animations[8].animation.useCache(false);}, 2000);
         /*
         setTimeout(() =>{
@@ -116,11 +129,11 @@ export class HomeController extends BC.BaseController<HM.HomeModel, HV.HomeView>
 
             this.animations[i].data.draw(time);
         }
-        this.model.stage.update();
+        this.view.stage.update();
     }
 
     createChara():any{
-        var image = new SP.SsImage(this.animation_images, "./", true);
+        var image = new SP.SsImage(this.animation_images, "./Comipo/datas/", true);
         var animation = new SP.SsAnimation(this.animation, image);
         var data = new SP.SsSprite(animation);
         data.setLoop(0);

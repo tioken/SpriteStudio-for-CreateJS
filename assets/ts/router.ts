@@ -3,7 +3,6 @@ declare var require;
 
 //これは必要無いけどコンパイル時にファイルが参照されるように
 import  c1 = require("controller/home");
-import  c2 = require("controller/test");
 
 export class Router {
     static routeMap:any = {
